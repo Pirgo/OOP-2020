@@ -3,6 +3,7 @@ package agh.cs.lab5;
 import agh.cs.lab2.Vector2d;
 import agh.cs.lab4.Animal;
 import agh.cs.lab4.IWorldMap;
+import agh.cs.lab4.MapVisualizer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,10 @@ import java.util.List;
 public abstract class AbstractWorldMap implements IWorldMap {
     protected List<Animal> animals = new ArrayList<Animal>();
     protected List<Grass> grass = new ArrayList<Grass>();
+
+
+    public abstract Vector2d getBegin();
+    public abstract Vector2d getEnd();
 
     @Override
     public List<Animal> getAnimals() {
@@ -47,5 +52,11 @@ public abstract class AbstractWorldMap implements IWorldMap {
         }
         return null;
 
+    }
+
+    @Override
+    public String toString(){
+        MapVisualizer map = new MapVisualizer(this);
+        return map.draw(getBegin(), getEnd());
     }
 }
