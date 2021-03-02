@@ -24,7 +24,9 @@ public class GrassField extends AbstractWorldMap {
             int y = ThreadLocalRandom.current().nextInt(0,maxpos);
             if(!isOccupied(new Vector2d(x,y))){
                 i++;
-                this.grass.add(new Grass(new Vector2d(x,y)));
+                Grass g = new Grass(new Vector2d(x,y));
+                this.grassMap.put(new Vector2d(x,y), g);
+                this.mapBoundry.placeGrass(g);
             }
 
         }
@@ -41,23 +43,12 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d getEnd(){
-        int maxX = 0;
-        int maxY = 0;
-        for(Animal a: this.animals){
-            maxX = Math.max(a.getPosition().x, maxX);
-            maxY = Math.max(a.getPosition().y, maxY);
-        }
-        for(Grass g: this.grass){
-            maxX = Math.max(g.getPosition().x, maxX);
-            maxY = Math.max(g.getPosition().y, maxY);
-        }
-        MapVisualizer map = new MapVisualizer(this);
-        return new Vector2d(maxX + 1, maxY + 1);
+        return this.mapBoundry.getEnd();
 
     }
 
     @Override
     public Vector2d getBegin(){
-        return this.begin;
+        return this.mapBoundry.getBegin();
     }
 }

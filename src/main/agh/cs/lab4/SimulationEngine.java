@@ -2,8 +2,10 @@ package agh.cs.lab4;
 
 import agh.cs.lab2.MoveDirection;
 import agh.cs.lab2.Vector2d;
+import agh.cs.lab6.IPositionChangeObserver;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class SimulationEngine implements IEngine {
@@ -12,12 +14,12 @@ public class SimulationEngine implements IEngine {
     private Vector2d[] positions;
 
 
-    public SimulationEngine(MoveDirection[] dir, IWorldMap map, Vector2d[] pos){
+    public SimulationEngine(MoveDirection[] dir, IWorldMap map, Vector2d[] pos, IPositionChangeObserver observer){
         this.directions = dir;
         this.map = map;
         this.positions = pos;
         for(Vector2d u: pos){
-            Animal tmp = new Animal(this.map, u);
+            Animal tmp = new Animal(this.map, u, observer);
             this.map.place(tmp);
         }
     }
@@ -25,7 +27,8 @@ public class SimulationEngine implements IEngine {
 
     @Override
     public void run() {
-        List<Animal> animals = map.getAnimals();
+        Collection<Animal> animals1 = map.getAnimals().values();
+        List<Animal> animals = new ArrayList<>(animals1);
         for(int i = 0; i < this.directions.length; i++){
             animals.get(i % animals.size()).move(this.directions[i]);
         }

@@ -4,10 +4,11 @@ import agh.cs.lab2.Vector2d;
 import agh.cs.lab4.Animal;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IWorldMap {
 
-    List<Animal> getAnimals();
+    Map<Vector2d,Animal> getAnimals();
 
     /**
      * Indicate if any object can move to the given position.
